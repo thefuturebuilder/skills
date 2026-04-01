@@ -405,6 +405,25 @@ Take `best_description` from the JSON output and update the skill's SKILL.md fro
 
 ---
 
+### Save the Skill to the Skills Repository
+
+Future Builder maintains a local Skills repository at `/Users/lukedavies/Skills/skills/` on Luke's Mac. This folder syncs to the FutureBuilder GitHub repo so all team members can access the same skills, and it serves as the single source of truth.
+
+**In Cowork**, this repo is mounted read-only at `/sessions/.../mnt/.skills/skills/` — you can read existing skills from there but cannot write to it. To save a new or updated skill, you need to request write access to the Skills folder using `request_cowork_directory`. Once mounted (typically at `/sessions/.../mnt/Skills/`), save skills to `<mounted-path>/skills/<skill-folder-name>/SKILL.md`.
+
+**Naming conventions:**
+- The **folder name** is the skill identifier and should clearly describe what the skill does (e.g., `fb-course-script-creator`, `digital-filing`, `brand-guidelines`). Use kebab-case.
+- The **file** inside is always called `SKILL.md` — the skill system discovers skills by looking for this exact filename inside each folder.
+- Reference files, scripts, and assets go in subdirectories within the skill folder (e.g., `references/`, `scripts/`, `assets/`).
+
+**Workflow:**
+1. Draft and iterate on the skill in `/tmp/<skill-name>/` during development
+2. Once finalised, request access to the Skills directory if not already mounted
+3. Copy the completed skill folder into `<Skills-mount>/skills/<skill-folder-name>/`
+4. The user can then commit and push to GitHub from their local machine
+
+Do NOT leave finalised skills only in `/tmp/` or in Google Drive — they must end up in the Skills repo to be discoverable by Cowork and accessible to the team.
+
 ### Package and Present (only if `present_files` tool is available)
 
 Check whether you have access to the `present_files` tool. If you don't, skip this step. If you do, package the skill and present the .skill file to the user:
@@ -447,6 +466,36 @@ If you're in Cowork, the main things to know are:
 - Feedback works differently: since there's no running server, the viewer's "Submit All Reviews" button will download `feedback.json` as a file. You can then read it from there (you may have to request access first).
 - Packaging works — `package_skill.py` just needs Python and a filesystem.
 - Description optimization (`run_loop.py` / `run_eval.py`) should work in Cowork just fine since it uses `claude -p` via subprocess, not a browser, but please save it until you've fully finished making the skill and the user agrees it's in good shape.
+
+### Skill Save Locations (IMPORTANT — read this before packaging)
+
+When a skill is finished and ready to save, it MUST be saved to ALL THREE of these locations:
+
+1. **Local skills repo** (primary — this is the source of truth):
+   - Path: `~/Skills/skills/<skill-name>/` (mounted as `/sessions/*/mnt/Skills/skills/` or `/sessions/*/mnt/skills/`)
+   - This is a Git repo cloned from `https://github.com/thefuturebuilder/skills.git`
+   - Save the raw skill files here (SKILL.md + references/ etc.), NOT the .skill package
+   - This directory sits alongside all other skills (docx, pptx, pdf, digital-filing, ceo-thinking-partner, fb-course-production-workflow, etc.)
+   - If this path is not mounted, request access to `~/Skills` or `~/Skills/skills` before saving
+   - **DO NOT** save skills to `/tmp/`, random workspace folders, or Google Drive instead — this local repo is the canonical home
+
+2. **FutureBuilder GitHub** (push after saving locally):
+   - Remote: `origin` → `https://github.com/thefuturebuilder/skills.git`
+   - Branch: `main`
+   - After saving files to the local repo, stage, commit, and push:
+     ```bash
+     cd <mounted-path-to-Skills-repo>
+     git add skills/<skill-name>/
+     git commit -m "Add <skill-name> skill"
+     git push origin main
+     ```
+   - If `.git/index.lock` blocks the commit, ask the user to run: `rm ~/Skills/.git/index.lock`
+
+3. **Packaged .skill file** (for easy installation):
+   - Use `package_skill.py` to create the `.skill` zip
+   - Present it to the user via `present_files` so they can install it
+   - Also save a copy to FutureBuilder Google Drive:
+     `GoogleDrive-luke@futurebuilder.co/My Drive/3. TOOLS/T06. Skills/`
 
 ---
 
