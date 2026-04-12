@@ -1,214 +1,328 @@
 ---
 name: digital-filing
-description: Comprehensive digital filing system using Luke Davies' PATH methodology (Projects, Areas, Tools, History). Organises files and folders, applies naming conventions, runs weekly desktop/downloads cleanup, identifies duplicates, and ensures single source of truth. Use when creating folder structures, naming files, organising documents, cleaning desktop, processing downloads, weekly reset, digital audit, creating project folders, archiving, or when the user mentions PATH, filing, folder structure, cleanup, single source of truth, or document management.
+description: Comprehensive digital filing system using Luke Davies' PATH methodology (Projects, Areas, Tools, History) with a GitHub-first sync strategy. Every file on the local machine MUST sync to either Google Drive or GitHub — nothing lives only locally. Organises files and folders, applies naming conventions, runs weekly desktop/downloads cleanup, identifies duplicates, enforces the Two Sync Lanes rule, manages the AI agent ecosystem (skills repo + OpenClaw/Yabby), and ensures single source of truth. Use when creating folder structures, naming files, organising documents, cleaning desktop, processing downloads, weekly reset, digital audit, creating project folders, archiving, syncing to GitHub, managing skills or OpenClaw config, or when the user mentions PATH, filing, folder structure, cleanup, single source of truth, document management, GitHub sync, or AI agent files.
 ---
 
 # Digital Filing — PATH Methodology (Claude Skill)
 
-A complete digital filing system designed by Luke Davies for construction businesses,
-adapted for any multi-company or personal workflow.
+A complete digital filing system designed by Luke Davies for his multi-company
+and personal workflow. Built around two core sync lanes: **Google Drive** for
+business documents and **GitHub** for code, configuration, and knowledge-as-code.
 
 ---
 
-## 1. Core Principles (The 8 Rules)
+## 1. Core Principles
 
 These rules govern EVERY filing decision. Never break them.
 
-### 1.1 Single Source of Truth (SSOT)
-Any piece of information — file, conversation, or task — lives in ONE definitive place.
-This does NOT mean everything goes in one app. It means absolute clarity on where to
-look for what. When you go to that place, you know with certainty it's the most up-to-date
-version. Never save the same document in multiple locations.
+### 1.1 Two Sync Lanes (The Master Rule)
+
+Every file on the local Mac MUST be syncing to one of exactly two platforms.
+If a file is not syncing, it is either unfiled or in the wrong place. Fix it immediately.
+
+| Lane | What belongs here | Sync method | Local path |
+|------|-------------------|-------------|------------|
+| **Google Drive** | Business documents, contracts, invoices, plans, media, templates, Master Context, SOPs, branding assets | Google Drive desktop app (automatic) | `~/Library/CloudStorage/GoogleDrive-*` |
+| **GitHub** | Code projects, Claude/Cowork skills, OpenClaw/Yabby agent config, shell scripts, automation, any `.git` repo | `git push/pull` (manual or scripted) | `~/Code/` and `~/Skills/` |
+
+**There is no third lane.** If something doesn't fit Google Drive or GitHub, ask:
+"Is this a document or is this code/config?" That determines the lane. Period.
+
+**Why this matters:** If your Mac dies tomorrow, you lose nothing. Google Drive
+restores your business documents. GitHub restores your code, skills, and AI agent
+config. Zero data lives only on the local machine.
+
+### 1.2 Single Source of Truth (SSOT)
+
+Any piece of information lives in ONE definitive place. Absolute clarity on where
+to look for what. When you go to that place, you know it's the most up-to-date version.
 
 **SSOT mapping:**
-- Working documents (Google Docs, Sheets) → Google Drive / cloud storage
-- Finalised documents (PDFs, signed contracts) → Project management system (e.g. Wunderbuild, ClickUp)
-- Financial records (invoices, transactions) → Accounting software (e.g. Xero)
-- Master Context files → Google Drive `Tools > Master Context/`
-- Notes and ideas → Note-taking app (one app only)
-- Conversations → Messaging platform thread (one thread per topic)
-- Tasks → Project management system
 
-### 1.2 Three-Click Rule
+| Information type | SSOT location | Sync lane |
+|---|---|---|
+| Working documents (Google Docs, Sheets) | Google Drive shared drives | Google Drive |
+| Finalised documents (PDFs, signed contracts) | Project management system (ClickUp) | Google Drive |
+| Financial records (invoices, transactions) | Accounting software (Xero) | Google Drive |
+| Master Context files | Google Drive `Tools > Master Context/` | Google Drive |
+| Notes and ideas | Note-taking app (one app only) | Google Drive |
+| Conversations | Messaging platform thread (one per topic) | N/A (platform) |
+| Tasks | ClickUp | N/A (platform) |
+| Code projects (apps, websites) | GitHub repo → local clone at `~/Code/` | GitHub |
+| Claude/Cowork skills | GitHub `thefuturebuilder/skills` → `~/Skills/` | GitHub |
+| OpenClaw agent config (Yabby) | GitHub `thefuturebuilder/yabby` → `~/Code/ai/yabby/` | GitHub |
+| Shell scripts & automation | GitHub repo → `~/Code/personal/` | GitHub |
+
+### 1.3 Three-Click Rule
 Access any file in maximum 3 clicks from your root (shared drive, Finder, etc.).
 If it takes more than 3 clicks, the system is too deep. Restructure.
 
-### 1.3 Maximum 20 Subfolders
+### 1.4 Maximum 20 Subfolders
 No single folder should contain more than 20 subfolders. More than that creates
 clutter and slows scanning. If you exceed 20, split into subcategories.
 
-### 1.4 Centralised Company Storage
-ALL work files on the company shared drive (e.g. Google Shared Drive, not "My Drive").
+### 1.5 Centralised Company Storage
+ALL work files on the company shared drive (Google Shared Drive, not "My Drive").
 Never on personal devices, personal cloud accounts, or email attachments.
 Shared drives ensure the BUSINESS owns the files, not the individual.
 
-### 1.5 Group-Based Access
+**"My Drive" is a red zone.** Files found in any Google My Drive should be moved
+to the appropriate shared drive PATH folder or red-tagged immediately. The only
+exception is temporary personal scratch files that will be filed within the same day.
+
+### 1.6 Group-Based Access
 Set permissions through groups (Executive, Project Management, All Team, Contractors).
 Never share individual files one by one. Use role-based email aliases
 (accounts@, admin@, projects@). Only give access to folders teams need.
 
-### 1.6 Consistent Naming Conventions
+### 1.7 Consistent Naming Conventions
 Standardised naming across everything. If people call the same thing different names,
 files become unfindable. One convention, applied everywhere, every time.
 
-### 1.7 Prioritise Frequently Used
+### 1.8 Prioritise Frequently Used
 Most-accessed folders and files at the top. Use pinning or numbering prefixes
-(e.g. `01_`, `02_`) to push important items to the top of file listings.
+(e.g. `01_`, `02_`, `A01.`, `T01.`) to push important items to the top of file listings.
 
-### 1.8 Less Friction the Better
+### 1.9 Less Friction the Better
 Minimise effort between receiving/creating a file and filing it.
-Set up automations where possible (e.g. auto-filing invoices into Xero).
+Set up automations where possible (e.g. auto-filing invoices into Xero, git auto-sync).
 The easier it is, the more consistently it gets done.
 
-### 1.9 Strict Exclusion Zones (Do Not Touch)
-Certain folders are strictly off-limits to this filing skill. Claude must **NEVER** modify, rename, move, or analyze files within these exclusion zones. 
-- **Future Builder Drive:** `Asset Library Members Only Live Sharing`
-If the user asks to organize a drive containing an excluded folder, Claude must explicitly acknowledge it is skipping that folder.
+### 1.10 Strict Exclusion Zones (Do Not Touch)
+Certain folders are strictly off-limits. Claude must **NEVER** modify, rename, move,
+or analyze files within these exclusion zones:
+- **Future Builder Drive:** `ASSET LIBRARY (Members Only - Live Shared Folder)`
+- **Any `.git/` directory:** Never modify Git internals directly.
+- **Any `node_modules/` directory:** Managed by package managers, not filing.
 
-### 1.10 Strict Routing for Sensitive & Personal Data (Security)
-You must protect confidential information by adhering to these strict routing routes during Auto-Filing:
-1. **Personal Files:** Anything personal to Luke Davies MUST be routed exclusively to the `Luke Davies Group > Luke Davies` personal drive. It must NEVER end up in the shared Future Builder, Davies Construction, or Align folders.
-2. **HR, Wages & Financials:** Anything related to job descriptions, employee wages, or company financials MUST be routed to folders with restricted/executive permissions (e.g., restricted Finance or HR folders). Never place them in general project or accessible team folders.
+If the user asks to organize a drive containing an excluded folder, Claude must
+explicitly acknowledge it is skipping that folder.
 
-### 1.11 Communicate All Moves (Team Collaboration)
-Never move anything without notifying others involved. If team members are collaborating on documents, clear communication around file movement prevents confusion and maintains trust. When making bulk moves in a shared drive, drop a note in the relevant Slack/messaging thread.
+### 1.11 Strict Routing for Sensitive & Personal Data (Security)
+Protect confidential information with strict routing:
+1. **Personal Files:** Anything personal to Luke Davies MUST be routed exclusively to
+   `Davies Group > Luke Davies (Davies Group)` shared drive. It must NEVER end up in
+   the shared Future Builder, Davies Construction, or Align folders.
+2. **HR, Wages & Financials:** Anything related to job descriptions, employee wages,
+   or company financials MUST be routed to folders with restricted/executive permissions.
+   Never place them in general project or accessible team folders.
+3. **API Keys, Secrets, Credentials:** NEVER commit to GitHub. Use `.env` files
+   (listed in `.gitignore`) or a secrets manager. If found in a repo, rotate immediately.
 
-### 1.12 Redundant Backup Protocol (Safety Net)
-To protect against system corruption or loss, maintain a full backup of the entire PATH folder structure and system in a secondary location. This MUST be either an external SSD on the Mac Mini or a non-Google Drive cloud service (e.g., iCloud, Dropbox). Never rely on a single platform for critical business data.
+### 1.12 Communicate All Moves (Team Collaboration)
+Never move anything without notifying others involved. When making bulk moves in a
+shared drive, drop a note in the relevant Slack/messaging thread.
+
+### 1.13 Redundant Backup Protocol (Safety Net)
+Maintain full backup in a secondary location:
+- **Google Drive** is backed up by the SSD on the Mac Mini or a non-Google cloud service.
+- **GitHub** is inherently distributed (every clone is a backup), but maintain at least
+  two local clones (e.g. Mac + Mac Mini) pulling from the same remote.
+- Never rely on a single platform for critical business data.
+
+### 1.14 Zero Unsynced Files (The Audit Rule)
+During every weekly reset, verify: **no file or folder exists on the local Mac that
+is not inside a Google Drive sync path OR a Git repository.** The only exceptions are:
+- System/application files (e.g. `~/Library/`, `/Applications/`)
+- Temporary working files in `~/Downloads/` or `~/Desktop/` that will be processed
+  during the weekly cleanup (see Section 6)
+
+If an unsynced file is found anywhere else, it must be immediately moved to the
+correct sync lane or red-tagged.
 
 ---
 
-## 2. PATH Folder Structure
+## 2. PATH Folder Structure (Google Drive)
 
-PATH = **P**rojects, **A**reas/Workstreams, **T**ools, **H**istory. These are the 4 Level 0 root folders.
+PATH = **P**rojects, **A**reas/Workstreams, **T**ools, **H**istory.
+These are the 4 root folders on every Google Shared Drive.
 
 ```
-PATH/
-├── Projects/             # Short-term, goal-oriented work with clear deadlines
-├── Areas/Workstreams/    # Ongoing responsibilities and operational zones
-├── Tools/                # Reusable resources, assets, and knowledge
-└── History/              # Completed work, archives, red-tagged items, backups
+Shared Drive Root/
+├── 1. PROJECTS/          # Short-term, goal-oriented work with clear deadlines
+├── 2. AREAS/             # Ongoing responsibilities and operational zones
+├── 3. TOOLS/             # Reusable resources, assets, and knowledge
+└── 4. HISTORY/           # Completed work, archives, red-tagged items, backups
 ```
 
-### 2.1 Projects/ — What Goes Here
+### 2.1 Google Drive Map (Current State)
+
+Luke operates across 4 Google Workspace accounts and 1 OneDrive:
+
+| Account | Shared Drives | Purpose |
+|---|---|---|
+| `luke@futurebuilder.co` | 1. PROJECTS, 2. ACCOUNTABILITY STREAMS, 3. TOOLS, 4. HISTORY, ASSET LIBRARY | Future Builder business |
+| `luke@daviesconstruction.com.au` | 1. PROJECTS, 2. AREAS, 3. TOOLS, 4. HISTORY | Davies Construction business |
+| `luke@daviesgroup.org` | Luke Davies (Davies Group), + family/entity drives | Personal + group holding |
+| `luke@alignarchitecture.com.au` | My Drive only | Align Architecture |
+| OneDrive-Personal | (unused) | Can be decommissioned |
+
+**Local paths** (via Google Drive for Desktop):
+```
+~/Library/CloudStorage/
+├── GoogleDrive-luke@futurebuilder.co/Shared drives/
+├── GoogleDrive-luke@daviesconstruction.com.au/Shared drives/
+├── GoogleDrive-luke@daviesgroup.org/Shared drives/
+├── GoogleDrive-luke@alignarchitecture.com.au/My Drive/
+└── OneDrive-Personal/                          # Unused — decommission candidate
+```
+
+### 2.2 Projects/ — What Goes Here
 
 **Definition**: Short-term, goal-oriented work with clear deadlines and deliverables.
-This includes specific construction jobs AND business development projects.
 
-**Structure** (Level 1 = lifecycle stages):
-
+**Davies Construction structure** (Level 1 = lifecycle stages):
 ```
-Projects/
-├── Pre-Construction/           # Jobs in design/planning
-│   └── [Project Name]/         # Level 2: individual project
-│       ├── Sales Information/  # Level 3: project subfolders
-│       ├── Estimates/
-│       ├── Contracts/
-│       ├── Plans/
-│       ├── Setout Files/
-│       ├── Specifications/
-│       ├── Variations/
-│       ├── Quote Requests/
-│       ├── Purchase Orders/
-│       ├── Permits/
-│       ├── Reports & Certificates/
-│       ├── Safety/
-│       ├── Media/
-│       ├── Form Logs/
-│       ├── Project Metrics/
-│       ├── Quality Control/
-122: │       ├── Invoices/
-123: │       ├── Handover/
-124: │       ├── Warranty/
-125: │       └── Archive/
-126: ├── Construction/               # Active build jobs
-127: │   └── [Project Name]/         # Move entire folder here when build starts
-128: ├── Post-Construction/          # Defects, handover, warranty phase
-129: │   └── [Project Name]/         # Move here when build ends
-130: └── Business Development/       # Non-construction projects
-131:     └── [Project Name]/         # Internal projects, websites, apps
-132: ```
+1. PROJECTS/
+├── 1.1 CONSTRUCTION PROJECTS/
+│   └── [Job Number]_[Address] _ [Client]/
+├── 1.2 PRE-CONSTRUCTION PROJECTS/
+│   └── [Job Number]_[Address] _ [Client]/
+├── 1.3 POST-CONSTRUCTION PROJECTS/
+│   └── [Job Number]_[Address] _ [Client]/
+└── 1.4 BUSINESS DEVELOPMENT PROJECTS/
+    └── [YYMM]_[Description]/
+```
 
-**Project lifecycle rule**: When a project changes phase, MOVE the entire
-Level 2 project folder to the appropriate Level 1 lifecycle folder.
+**Future Builder structure:**
+```
+1. PROJECTS/
+├── 2501_Future Builder App (Alfie)/
+├── 2502_Clickup Operating System/
+├── 2503_Partners Ecosystem/
+├── 2504_Content & Wunderbuild Asset Expansion/
+├── 2505_New Zealand Expansion/
+├── 2506_Marketing Engine/
+├── 2507_Finance Systems & Profit First/
+└── Project Template/
+```
+
+**Project subfolder template** (construction):
+```
+[Project Name]/
+├── Sales Information/
+├── Estimates/
+├── Contracts/
+├── Plans/
+├── Setout Files/
+├── Specifications/
+├── Variations/
+├── Quote Requests/
+├── Purchase Orders/
+├── Permits/
+├── Reports & Certificates/
+├── Safety/
+├── Media/
+├── Form Logs/
+├── Project Metrics/
+├── Quality Control/
+├── Invoices/
+├── Handover/
+├── Warranty/
+└── Archive/
+```
+
+**Project lifecycle rule**: When a project changes phase, MOVE the entire folder
+to the appropriate lifecycle folder.
 Pre-Construction → Construction → Post-Construction.
-
-**Examples of projects**:
-- `J-01009_122 Main Street _ Jack & Jill` (construction project)
-- `2501_New Website` (business development project)
-- `2502_Implement ClickUp` (business development project)
-
-### 2.2 Areas/Workstreams/ — What Goes Here
-
-**Definition**: Ongoing responsibilities and operational zones of the business.
-These are continuous functions you always manage — they never "complete" like a project.
-
-**Level 1 subfolders**:
-
-```
-Areas/Workstreams/
-├── Meetings/
-├── Sales & Lead Management/
-├── Finance & Accounting/
-├── 5S & Continuous Improvement/
-├── Marketing & Public Relations/
-├── Content Creation/
-├── People Culture & Training/
-├── Legal/
-├── Insurance/
-├── Compliance Safety Environment & Quality/
-├── Reporting & Analytics/
-├── Vehicles & Plant/
-├── Business Development & Growth/
-├── Virtual Assistants/
-├── Properties & Acquisitions/
-└── Travel & Tickets/
-```
 
 **Ask yourself**: "Does this have a deadline and a finish line?"
 - Yes → It's a **Project**
 - No, it's something I always manage → It's an **Area/Workstream**
 
-### 2.3 Tools/ — What Goes Here
+### 2.3 Areas/Workstreams/ — What Goes Here
 
-**Definition**: Reusable resources, assets, and knowledge that support your work.
-These are go-to items you use repeatedly. They are not tied to a specific project.
+**Definition**: Ongoing responsibilities and operational zones.
+These are continuous functions — they never "complete" like a project.
 
-**Level 1 subfolders**:
-
+**Davies Construction:**
 ```
-Tools/
-├── How-To Guides & SOPs/
-├── Skills/               # Backups of all ~/.claude/skills/ .md files
-├── Templates/
-├── Forms & Checklists/
-├── Legal & Contracts/
-├── Branding & Marketing/
-├── Media Library/
-├── HR & Team Resources/
-├── Supplier & Contractors/
-├── Best Practices & Learning/
-├── Master Context/       # The source of truth for all business knowledge
-├── Estimating & Pricing/
-├── Financial Tools & Templates/
-├── Databases & Trackers/
-└── Quick Share/
+2. AREAS/
+├── 2.1 MEETINGS/
+├── 2.2 5S & CONTINUOUS IMPROVEMENT/
+├── 2.3 REPORTING & ANALYTICS/
+├── 2.4 COMPLIANCE, SAFETY, ENVIRONMENT & QUALITY/
+├── 2.5 SALES & LEAD MANAGEMENT/
+├── 2.6 QUICK SHARE/
+├── 2.7 TRAVEL & TICKETS/
+├── BUSINESS DEVELOPMENT & GROWTH/
+├── CONTENT CREATION/
+├── INSURANCE/
+├── MARKETING & PUBLIC RELATIONS/
+├── PROPERTIES & ACQUISITIONS/
+├── VEHICLES & FLEET/
+└── VIRTUAL ASSISTANTS/
 ```
 
-**Ask yourself**: "Is this something I use again and again?"
-- Yes → It belongs in **Tools**
-- No, it's specific to one project → It belongs in that **Project** folder
+**Future Builder:**
+```
+2. ACCOUNTABILITY STREAMS/
+├── A00. CEO & Strategy/
+├── A01. Growth Cadence Meetings/
+├── A02. Continuous Improvement/
+├── A03. Daily Definites/
+├── A04. Monday Masterminds/
+├── A05. Systems & SOPs/
+├── A06. Sales & Lead Management/
+├── A07. Marketing & Content Pipeline/
+├── A08. Finance & Reporting/
+├── A09. Course Production/
+├── A10. Asset Development/
+├── A11. Product Development/
+├── A12. Member Engagement/
+└── A13. 1-on-1 Mentor Meetings/
+```
 
-### 2.4 History/ — What Goes Here
+### 2.4 Tools/ — What Goes Here
 
-**Definition**: Completed projects, archived documents, superseded file versions,
-and red-tagged items. The digital archive. Keeps old stuff out of the way but
-accessible for reference. NOTHING IS EVER DELETED — it goes to History.
+**Definition**: Reusable resources, assets, and knowledge.
 
-**Level 1 subfolders**:
+**Future Builder:**
+```
+3. TOOLS/
+├── T01. Business Context/
+├── T02. Templates/
+├── T03. SOPs/
+├── T04. Playbooks/
+├── T05. Reports & Dashboards/
+├── T06. Skills/
+├── T07. Code & Repositories/    # Reference docs ONLY — actual code on GitHub
+├── T08. Legal & Company Records/
+├── T09. Contacts/
+└── T10. Databases & Registers/
+```
+
+**Davies Construction:**
+```
+3. TOOLS/
+├── 3.1 HOW-TO GUIDES & SOPS/
+├── 3.2 TEMPLATES/
+├── 3.3 FORMS & CHECKLISTS/
+├── 3.4 DATABASES & TRACKERS/
+├── 3.5 ESTIMATING & PRICING/
+├── 3.6 MEDIA LIBRARY/
+├── BRANDING & MARKETING/
+├── FINANCIAL TOOLS & TEMPLATES/
+├── HR & TEAM RESOURCES/
+├── LEGAL & CONTRACTS/
+└── SUPPLIERS & CONTRACTORS/
+```
+
+**Personal (Davies Group > Luke Davies):**
+```
+3. Tools/
+├── Master Context/           # Cross-platform AI context (Google Docs format)
+├── Skills Backup/            # Periodic export of skills repo for non-Git access
+└── Templates/
+```
+
+### 2.5 History/ — What Goes Here
+
+**Definition**: Completed projects, archived documents, superseded versions,
+and red-tagged items. NOTHING IS EVER DELETED — it goes to History.
 
 ```
-History/
+4. HISTORY/
 ├── Archives/     # Completed projects and old documents
 ├── Red Tag/      # Uncertain, unused, or duplicate items awaiting sorting
 └── Backups/      # Secure copies of critical data
@@ -218,23 +332,191 @@ History/
 in 6+ months, might be a duplicate, or you're unsure where it belongs. Move it
 to Red Tag immediately. Sort it later during dedicated cleanup time.
 
-### 2.5 Master Context/ — What Goes Here
+### 2.6 Master Context/ — What Goes Here
 
-**Definition**: The definitive source of truth and context for your businesses. These are master Markdown (`.md`) files that hold goals, values, brand voice, and operating procedures. This ensures Claude always has a central, rich-text repository to learn from. 
+**Definition**: The definitive source of truth for business context accessible
+from any platform (mobile, web, ChatGPT, Claude web, etc.).
 
-**Location**: Google Drive `Tools > Master Context/`
+**Location**: Davies Group > Luke Davies > Tools > Master Context/
+**Format**: Google Docs (for cross-platform access and real-time editing)
+
 **Rules**:
-1. **Save Routing**: Whenever you ask Claude to "save this as master context", it MUST be saved into this directory.
-2. **Never Overwrite Silently**: Claude is explicitly forbidden from overwriting or modifying an existing Master Context document without approval. If tasked to update a context doc, Claude must present the proposed changes and wait for explicit user approval before executing the overwrite.
-3. **Cross-Platform**: Because you need to access this from mobile, web, and various AI apps (ChatGPT, Claude web), this lives in Google Drive, not your local machine.
-
-*Note: You can create subfolders in here for the different entities (e.g., `Future Builder/`, `Davies Construction/`, `Personal/`) to keep the context segmented.*
+1. **Save Routing**: "Save this as master context" → this directory.
+2. **Never Overwrite Silently**: Present proposed changes, wait for approval.
+3. **Cross-Platform**: Lives in Google Drive because it must be accessible from
+   mobile, web, and various AI apps — not just local terminal.
+4. **Relationship to Yabby**: Master Context is the human-readable, cross-platform
+   version. Yabby's `context/` files (on GitHub) are the agent-native version
+   optimised for OpenClaw. They may contain overlapping information but serve
+   different access patterns. When Master Context is updated, consider whether
+   Yabby's context files also need updating, and vice versa.
 
 ---
 
-## 3. Naming Conventions
+## 3. GitHub Sync Lane (Code, Skills & AI)
 
-### 3.1 Project Folder Names
+### 3.1 The Iron Rule
+
+**Code, config, and knowledge-as-code NEVER go in Google Drive.**
+Google Drive's sync engine conflicts with Git's `.git` directory and corrupts
+repositories. It also wastes bandwidth syncing `node_modules/` (tens of thousands
+of files). GitHub and Google Drive are two completely separate sync lanes.
+
+### 3.2 GitHub Account
+
+- **Username:** `thefuturebuilder`
+- **Active repos:** See Section 3.5 for the full registry.
+
+### 3.3 Local Folder Structure
+
+All GitHub-synced content lives under two local roots:
+
+```
+~/Skills/                              # Git clone of thefuturebuilder/skills
+│   ├── skills/
+│   │   ├── digital-filing/            # This skill
+│   │   ├── futurebuilder-content/
+│   │   ├── ceo-thinking-partner/
+│   │   ├── construction-disputes/
+│   │   ├── skill-creator/
+│   │   ├── fb-course-script-creator/
+│   │   ├── fb-course-production-workflow/
+│   │   ├── fb-platform-schema/
+│   │   ├── da-ba-approval/
+│   │   ├── schedule/
+│   │   └── ... (Anthropic default skills)
+│   └── .git/                          → github.com/thefuturebuilder/skills
+
+~/Code/
+├── futurebuilder/
+│   ├── alfie/                         → github.com/thefuturebuilder/v4.0-alfie
+│   └── bns/                           → github.com/thefuturebuilder/v1.0-BNS
+│
+├── davies-group/
+│   └── dc-website/                    → github.com/thefuturebuilder/davies-construction-website
+│
+├── ai/
+│   └── yabby/                         → github.com/thefuturebuilder/yabby (NEW)
+│       ├── SOUL.md                    # Yabby's identity & personality
+│       ├── HEARTBEAT.md               # Scheduled tasks / automations
+│       ├── TOOLS.md                   # Tool usage instructions
+│       ├── AGENTS.md                  # Agent definitions
+│       ├── context/
+│       │   ├── user-profile.md        # Luke's user context for Yabby
+│       │   └── outlines/              # Context outlines
+│       └── memory/                    # Accumulated memory files
+│
+├── personal/
+│   ├── automation/                    # Shell scripts, cron jobs, sync scripts
+│   └── learning/                      # Experiments, tutorials
+│
+└── _shared/
+    ├── templates/                     # Shared boilerplate
+    └── scripts/                       # Cross-project utility scripts
+```
+
+**Why two roots (`~/Skills/` and `~/Code/`)?**
+The `~/Skills/` folder is the Cowork plugin installation point — Cowork reads skills
+from this exact path. Moving it inside `~/Code/` would break the Cowork integration.
+Both are Git repos syncing to GitHub, both follow the same sync discipline.
+
+### 3.4 Naming Conventions (Code & Git)
+
+- All lowercase, hyphens instead of spaces
+- No special characters
+- Descriptive but concise
+- Local folder names can differ from GitHub repo names for clarity
+  (e.g. local `alfie/` ← GitHub `v4.0-alfie`)
+
+### 3.5 GitHub Repository Registry
+
+**Active repos (KEEP):**
+
+| GitHub repo | Local path | Purpose |
+|---|---|---|
+| `thefuturebuilder/skills` | `~/Skills/` | Claude/Cowork skills (forked from Anthropic) |
+| `thefuturebuilder/v4.0-alfie` | `~/Code/futurebuilder/alfie/` | Alfie app v4 |
+| `thefuturebuilder/v1.0-BNS` | `~/Code/futurebuilder/bns/` | BNS app v1 |
+| `thefuturebuilder/davies-construction-website` | `~/Code/davies-group/dc-website/` | DC website |
+| `thefuturebuilder/davies-construction` | `~/Code/davies-group/dc-app/` | DC app/system |
+| `thefuturebuilder/yabby` | `~/Code/ai/yabby/` | OpenClaw agent (NEW — create this) |
+
+**Archived repos (DO NOT CLONE):**
+
+| GitHub repo | Reason |
+|---|---|
+| `rork-future-builder-v2` | Superseded — created by Rork |
+| `future-builder-v2-trcigz` | Superseded — created by Natively |
+| `Luke-Davies-Clone-Lovable-` | Already archived |
+| `base-embrace` | Stale since Jan 2026 |
+| `augment-me` | Stale since Nov 2025 |
+
+When archiving: GitHub → Settings → Archive this repository. Do NOT delete.
+
+### 3.6 Git Sync Workflow
+
+**Daily habit — sync AI repos:**
+```bash
+#!/bin/bash
+# ~/Code/personal/automation/sync-ai.sh
+
+repos=(
+  "$HOME/Skills"
+  "$HOME/Code/ai/yabby"
+)
+
+for repo in "${repos[@]}"; do
+  echo "Syncing $repo..."
+  cd "$repo"
+  git pull --rebase
+  if [ -n "$(git status --porcelain)" ]; then
+    git add -A
+    git commit -m "Sync $(date +%Y-%m-%d)"
+    git push
+  fi
+done
+
+echo "All AI repos synced."
+```
+
+**For code projects (alfie, BNS, DC website):**
+Use feature branches and meaningful commit messages. These are active codebases —
+don't auto-commit. Push when you've made deliberate changes.
+
+### 3.7 What Goes Where — The Decision Tree
+
+```
+Is it a business document (PDF, contract, invoice, plan, media, template)?
+  → Google Drive → appropriate shared drive PATH folder
+
+Is it code for an app or website?
+  → ~/Code/[company]/[project]/ → GitHub
+
+Is it a Claude/Cowork skill (.md)?
+  → ~/Skills/skills/[skill-name]/ → GitHub (skills repo)
+
+Is it OpenClaw/Yabby config (SOUL.md, HEARTBEAT.md, context, memory)?
+  → ~/Code/ai/yabby/ → GitHub (yabby repo)
+
+Is it a shell script, automation, or utility?
+  → ~/Code/personal/automation/ → GitHub
+
+Is it a screenshot or downloaded file?
+  → Process during weekly cleanup → route to Google Drive or GitHub
+
+Is it Master Context (cross-platform AI knowledge)?
+  → Google Drive → Davies Group > Luke Davies > Tools > Master Context/
+
+Not sure?
+  → Google Drive → History/Red Tag/ (if it's a document)
+  → ~/Code/personal/ (if it looks like code/config)
+```
+
+---
+
+## 4. Naming Conventions
+
+### 4.1 Project Folder Names
 
 **Construction projects**:
 `[Job Number]_[Site Address] _ [Client First Names]`
@@ -246,26 +528,20 @@ J-01010_45 Ocean Drive _ Sarah & Tom
 **Business development projects**:
 `[YYMM]_[Description]`
 ```
-2501_New Website
+2501_Future Builder App (Alfie)
 2503_Implement ClickUp
-2504_Hire Virtual Assistant
+2507_Finance Systems & Profit First
 ```
 
-The year-month prefix (YYMM) indicates when the project was created.
-First project of 2025 = 2501, second = 2502.
-
-### 3.2 Document Names
+### 4.2 Document Names
 
 **Core rule**: Think about your future self. What will you search for in 6 months?
-What words or numbers will you type into the search bar?
 
 **Project documents** — always include date and type keyword:
 `[YYYY-Mon-DD]_[Type Keyword] [Description]_[Project Number].[ext]`
-
 ```
 2025-Mar-30_Engineering Plans_J-01003_122 Main Street.pdf
 2026-Feb-14_Meeting Notes_J-01009_Design Review.docx
-2025-Dec-01_Permit_J-01005_Building Approval.pdf
 ```
 
 **Type keywords** (always use one of these):
@@ -283,279 +559,276 @@ Report, Certificate, Invoice, Quote, Purchase Order, Variation, Specification
 Employee Cost Spreadsheet_V1.0.xlsx
 Standard Operating Procedure for Filing_V2.1.pdf
 ```
-Minor updates = V1.1, V1.2 | Major updates = V2.0, V3.0
 
 **Screenshot naming**:
 `[YYYY-Mon-DD]_Screenshot_[Description].[ext]`
 ```
 2026-Feb-14_Screenshot_Alfie Dashboard Design.png
-2026-Feb-21_Screenshot_Slack Team Conversation.png
 ```
 
-### 3.3 Code Project Names (Local Mac)
+### 4.3 Duplicate Prevention
 
-- All lowercase, hyphens instead of spaces
-- No special characters
-- Descriptive but concise
-
-```
-~/Projects-Code/
-├── futurebuilder/life-by-design/
-├── futurebuilder/alfie-app/
-├── davies-group/property-website/
-└── personal/automation/weekly-cleanup/
-```
-
-### 3.4 Duplicate Prevention
-
-When naming, NEVER add `(1)`, `(2)`, `Copy of` etc. If a file with that name
-already exists, it means one of them shouldn't be there. Determine which is the
-correct version and move the other to History/Red Tag.
+NEVER add `(1)`, `(2)`, `Copy of` etc. If a file with that name already exists,
+one of them shouldn't be there. Determine which is correct and move the other
+to History/Red Tag.
 
 ---
 
-## 4. Instructions for Claude: Interactive Organization
+## 5. Instructions for Claude: Interactive Organization
 
-When the user requests help organizing an arbitrary folder (e.g., Downloads, Documents), follow these steps strictly:
+When the user requests help organizing an arbitrary folder, follow these steps:
 
-### 4.1 Understand and Analyze
+### 5.1 Understand and Analyze
 Ask clarifying questions if needed (files to avoid, current projects).
-Evaluate the current structural state of the directory by running the following:
+Evaluate the current structural state:
 ```bash
-# Get overview of current structure
 ls -la [target_directory]
-# Identify largest files
 du -sh [target_directory]/* | sort -rh | head -20
-# Count file types
 find [target_directory] -type f | sed 's/.*\.//' | sort | uniq -c | sort -rn
 ```
-Summarize the findings: total files, type breakdown, sizing, and obvious naming issues.
+Summarize: total files, type breakdown, sizing, naming issues.
 
-### 4.2 Find Duplicates
-Run searches for duplicates explicitly:
+### 5.2 Determine Sync Lane
+Before proposing any moves, classify every file:
+- **Google Drive lane**: documents, media, templates, business assets
+- **GitHub lane**: code, scripts, config, `.md` skill files, OpenClaw files
+- **Red Tag**: can't determine — propose moving to History/Red Tag
+
+### 5.3 Find Duplicates
 ```bash
-# Exact duplicates by hash
 find [target_directory] -type f -exec md5 {} \; | sort | uniq -d
-# Same name duplicates
 find [target_directory] -type f -printf '%f\n' | sort | uniq -d
 ```
-Determine which to keep (usually best-named or most recent). **Always ask for confirmation before deleting duplicate content or move it to History/Red Tag**.
+**Always ask for confirmation before deleting or moving duplicates.**
 
-### 4.3 Propose Organization Plan (Before Execution)
-Design a structure using the PATH methodology described above.
-Present a Markdown plan clearly:
+### 5.4 Propose Organization Plan
+Present a clear plan before executing:
 ```markdown
 # Organization Plan for [Directory]
 
 ## Current State
-- X files across Y folders, [Size] total.
-- Major issues: [e.g. duplicated (1) files, no dates]
+- X files across Y folders, [Size] total
+- Major issues: [e.g. duplicated (1) files, no dates, unsynced files]
 
-## Proposed Structure
-[Show simplified target tree aligning with PATH and standard Naming Conventions]
+## Proposed Changes
+### → Google Drive
+1. Move X PDFs into [Drive] > [PATH folder]
+2. Rename to standard naming convention
 
-## Changes I'll Make
-1. Move X PDFs into Areas/Workstreams/Finance
-2. Move Y old projects into History/Archives
-3. Rename files to standard `[YYYY-Mon-DD]_[Type Keyword]_[Description]`
-4. Move identified duplicates to History/Red Tag
+### → GitHub
+3. Move Y scripts into ~/Code/personal/automation/
+4. Commit and push
+
+### → Red Tag
+5. Move Z unknown files to History/Red Tag
 
 Ready to proceed? (yes/no/modify)
 ```
 
-### 4.4 Execute Safely
-Upon user approval:
-1. Make directories.
-2. Log all file movements clearly.
-3. Rename using our stringent `YYYY-Mon-DD` date logic.
-4. Stop and ask if severe conflicts exist.
+### 5.5 Execute Safely
+Upon approval:
+1. Create directories as needed.
+2. Log all movements clearly.
+3. Rename using `YYYY-Mon-DD` convention.
+4. Commit and push any GitHub lane changes.
+5. Stop and ask if severe conflicts exist.
 
-### 4.5 Provide Summary
-Provide an "Organization Complete! ✨" summary charting the moved directories and explaining maintenance tips.
-
-### 4.6 Rogue Folder & File Protocol (Drive Audits)
-When auditing a Google Drive root directory (e.g., **Future Builder**, **Davies Construction**, or your personal **Luke Davies Group > Luke Davies** shared drive), enforce the PATH structure strictly:
-1. **Identify Rogues:** Any folder or file sitting in the root directory that is NOT one of the 4 PATH folders (Projects, Areas/Workstreams, Tools, History) is a "Rogue".
-2. **File or Red Tag:** 
-   - If it is visually obvious where the rogue item belongs (e.g., an invoice), propose moving it to the correct PATH folder.
-   - If you are unsure whose file it is or where it belongs, **immediately propose moving it to `History/Red Tag/`**. 
-3. **Teaching Mechanism:** Do not delete rogues. Moving them to Red Tag teaches the team that if they don't file properly, their files will be swept into the holding zone.
-4. **Monthly Summary Email:** When requested to do a "Monthly Red Tag Audit", summarize everything currently sitting in `History/Red Tag/`. Draft an email to the team listing the items so they can claim them for proper filing, archiving, or deletion.
+### 5.6 Rogue Folder & File Protocol (Drive Audits)
+When auditing a Google Drive root:
+1. **Identify Rogues:** Anything NOT inside the 4 PATH folders is a rogue.
+2. **File or Red Tag:** If obvious where it belongs, propose moving it.
+   If unsure, propose `History/Red Tag/`.
+3. **My Drive Sweep:** Anything in "My Drive" that should be on a shared drive
+   gets flagged. My Drive is not for permanent storage.
+4. **Teaching Mechanism:** Moving rogues to Red Tag teaches the team.
+5. **Monthly Summary Email:** When requested, summarize Red Tag contents and
+   draft a team notification.
 
 ---
 
-## 5. Document Flow: Capture → File → Find
+## 6. Document Flow: Capture → Route → File
 
-### 5.1 Auto-Filing Inbox (The "Drop Zone")
+### 6.1 Auto-Filing Inbox (The "Drop Zone")
 
-To eliminate the friction of figuring out where a file goes, we use an **Auto-Filing Inbox**.
-**Location:** `~/Inbox/`
-**Timing:** Files sit here until you explicitly tell Claude to "Process my folder inbox", or until you run your weekly cleanup script. Claude does not run invisibly in the background.
+**Location:** `~/Desktop/` and `~/Downloads/` serve as temporary inboxes.
+**Timing:** Processed during weekly cleanup or when Claude is asked to
+"Process my inbox."
 
 **Workflow:**
-1. You drag files from Gmail, Slack, or Downloads directly into `~/Inbox/`.
-2. You ask Claude: "Process my folder inbox"
-3. Claude will execute the **Interactive Organization** rules (Section 4):
-   - Analyze every file in the Inbox.
-   - Read the context of the files to determine which PATH project/area they belong to (strictly adhering to Security Rule 1.10).
-   - Propose a plan standardizing their names (`[YYYY-Mon-DD]_[Type]_[Desc].ext`) and their target destinations.
-   - **7-Day Trust Report Mandate:** For the first 7 days of using this skill, Claude MUST provide a highly detailed summary before moving *anything*. It must explicitly state the old file name, the new file name, the exact Google Drive destination, and ask for explicit approval before executing the move.
-   - Upon your approval, file them correctly and leave the Inbox empty.
+1. Files arrive via email, Slack, browser downloads, or screenshots.
+2. Ask Claude: "Process my inbox"
+3. Claude will:
+   - Analyze every file in Desktop and Downloads.
+   - Classify into Google Drive lane or GitHub lane.
+   - Propose names (`[YYYY-Mon-DD]_[Type]_[Desc].ext`) and destinations.
+   - Adhere to Security Rule 1.11 for sensitive files.
+   - Present the full plan and wait for approval.
+   - Execute and leave Desktop/Downloads empty.
 
-### 5.2 Capture
-Get information into the system fast. Capture points include:
-- Auto-Filing Inbox (Primary drop zone for files)
+### 6.2 Capture Points
+- Desktop / Downloads (temporary inbox)
 - Phone scanner app (physical receipts/documents)
 - Email inbox (processing, not permanent storage)
 - Camera roll (photos from site)
 
-### 5.3 File
-Route each captured item to its Single Source of Truth:
-- General files → Google Drive PATH structure
-- Finalised project docs → Project management system
-- Code → `~/Projects-Code/` + GitHub
-- Master Context / Knowledge Base → Google Drive `Tools > Master Context/`
-- Skill Backups → Google Drive `Tools > Skills/`
+### 6.3 Routing Rules
+| Captured item | Route to |
+|---|---|
+| General business files | Google Drive → appropriate shared drive PATH folder |
+| Finalised project docs | ClickUp (project management) |
+| Code files, scripts | `~/Code/` → GitHub |
+| Skill files (.md) | `~/Skills/` → GitHub |
+| OpenClaw/Yabby config | `~/Code/ai/yabby/` → GitHub |
+| Master Context updates | Google Drive → Tools > Master Context/ |
+| Screenshots | Rename → process during weekly cleanup |
 
-### 5.4 Daily Habit: Quick Digital Clean (The "Red Tag" Method)
+### 6.4 Daily Habit: Quick Digital Clean
 At the end of each day (or regularly throughout):
-1. Create a new folder on your desktop named `Desktop and Downloads Archive [Today's Date]`.
-2. Drag everything from your current desktop and your Downloads folder into this new dated folder. 
-3. Drag this entire folder into the `History/Red Tag/` area. 
-4. Do not spend hours trying to deeply organize it. The goal is to clear the immediate workspace fast.
-
-### 5.5 Find
-If captured and filed correctly, retrieval is fast:
-- You know WHERE to look (SSOT principle)
-- You know WHAT to search (naming conventions)
-- You find it in 3 clicks or less
+1. Scan Desktop and Downloads for anything that can be immediately filed.
+2. File what's obvious (drag to Google Drive or save to Git repo).
+3. Anything unclear stays for the weekly cleanup.
 
 ---
 
-## 6. Weekly Desktop & Downloads Cleanup
+## 7. Weekly Reset Checklist
 
-### Overview
-
-Every week, Desktop and Downloads must be emptied. Files are renamed and
-moved to `~/History/` in dated folders. **Nothing is ever deleted.**
-
+### Desktop & Downloads Cleanup
 ```
 Desktop & Downloads
     ↓ Scan all files
+    ↓ Classify: Google Drive lane or GitHub lane
     ↓ Rename properly
-    ↓ Group into dated folder (YYYY-Mon-DD)
-    ↓ Move to ~/History/Desktop/[date]/ or ~/History/Downloads/[date]/
-    ↓ Desktop & Downloads are now EMPTY ✨
-```
-
-### Destination Structure
-
-```
-~/History/
-├── Desktop/
-│   ├── 2026-Feb-27/    # Today's cleanup
-│   ├── 2026-Feb-20/    # Last week
-│   └── ...
-├── Downloads/
-│   ├── 2026-Feb-27/
-│   ├── 2026-Feb-20/
-│   └── ...
-└── cleanup_log.txt     # Running log of all cleanups
+    ↓ Route to correct destination
+    ↓ Anything unclassifiable → Google Drive History/Red Tag
+    ↓ Desktop & Downloads are now EMPTY
 ```
 
 ### Screenshot Processing
-
 1. Extract date from macOS filename (e.g. `Screenshot 2026-02-14 at 6.14.15 pm.png`)
 2. **Look at the screenshot** to identify what it shows
 3. Rename: `[YYYY-Mon-DD]_Screenshot_[Description].png`
-4. Move to `~/History/Desktop/[today's date]/`
+4. Route to the relevant Google Drive PATH folder, or History/Red Tag if unclear.
 
-### Downloads Processing
+### Full Weekly Checklist
 
-1. Identify duplicate files (`(1)`, `(2)` suffixes, identical sizes)
-2. Keep the best-named or newest version, move others to same folder
-3. Clean up filenames (remove download artifacts, standardise)
-4. Add date prefix if missing
-5. Move to `~/History/Downloads/[today's date]/`
-
-### Duplicate Detection
-
-When processing, check for duplicates by:
-- Identical filenames with `(1)`, `(2)` suffixes
-- Files with identical byte sizes
-- Same-name files with different extensions (e.g. `.pdf` and `.docx` versions)
-
-Log all duplicates found. Keep all copies but note which appear to be duplicates.
-
-### Running the Cleanup
-
-**Automated** (preview first):
-```bash
-python3 ~/.claude/skills/digital-filing/scripts/weekly_cleanup.py --dry-run
-python3 ~/.claude/skills/digital-filing/scripts/weekly_cleanup.py
-```
-
-**Interactive** (Claude looks at screenshots):
-Ask: "Process my folder inbox" — Claude will view screenshots, name them,
-and execute the cleanup interactively.
+- [ ] **Clear Desktop** → route files to correct sync lane
+- [ ] **Clear Downloads** → route files to correct sync lane
+- [ ] **Rename screenshots** with descriptions
+- [ ] **Git sync AI repos** → run `sync-ai.sh` (skills + yabby)
+- [ ] **Git push** any uncommitted code project changes
+- [ ] **Audit Drive roots** → Rogue Folder Protocol on main drives
+- [ ] **Sweep My Drives** → move any My Drive files to shared drives
+- [ ] **Archive completed tasks** in ClickUp
+- [ ] **Move completed projects** to History/Archives
+- [ ] **Check for duplicate files** across active folders
+- [ ] **Verify Zero Unsynced Files** → nothing on local Mac outside a sync lane
+- [ ] **Verify backup integrity** → SSD/secondary cloud is current
+- [ ] **Clear browser cache** and close unnecessary tabs
+- [ ] **Review project list** (aim for ~15 active projects)
 
 ---
 
-## 7. Full Weekly Reset Checklist
+## 8. AI Agent Ecosystem
 
-- [ ] Clear Desktop → `~/History/Desktop/[date]/`
-- [ ] Clear Downloads → `~/History/Downloads/[date]/`
-- [ ] Rename screenshots with descriptions
-- [ ] Archive completed tasks in project management system
-- [ ] Archive processed emails
-- [ ] Archive unused notes in note-taking app
-- [ ] Move completed projects to History/Archives
-- [ ] Check for duplicate files across active folders
-- [ ] **Audit Drive Roots:** Run the Rogue Folder Protocol on main drives (Luke Davies, Future Builder) to push loose files into Projects, Areas/Workstreams, or Red Tag.
-- [ ] **Verify Backup Integrity:** Confirm the redundant backup (SSD/Secondary Cloud) is current and accessible.
-- [ ] Clear browser cache and close unnecessary tabs
-- [ ] Verify backups are current (SSD or secondary cloud)
-- [ ] Review project list (aim for ~15 active projects)
-- [ ] Disable non-essential notifications
+### 8.1 Overview
+
+Luke's AI agent ecosystem consists of two GitHub-synced components:
+
+1. **Skills** (`~/Skills/`) — Claude/Cowork skill definitions. These are `.md` files
+   that instruct Claude how to perform specific tasks. Synced via the
+   `thefuturebuilder/skills` GitHub repo (forked from `anthropics/skills`).
+
+2. **Yabby** (`~/Code/ai/yabby/`) — Luke's OpenClaw AI agent. OpenClaw agents are
+   defined by plain-text markdown files that control identity, behaviour, memory,
+   and scheduled actions. Synced via the `thefuturebuilder/yabby` GitHub repo.
+
+### 8.2 Skills Repo Structure
+
+```
+~/Skills/                              # ← Cowork reads from this path
+├── .git/                              # → github.com/thefuturebuilder/skills
+├── skills/
+│   ├── digital-filing/SKILL.md        # This file
+│   ├── futurebuilder-content/SKILL.md
+│   ├── ceo-thinking-partner/SKILL.md
+│   ├── construction-disputes/SKILL.md
+│   ├── skill-creator/SKILL.md
+│   ├── fb-course-script-creator/SKILL.md
+│   ├── fb-course-production-workflow/SKILL.md
+│   ├── fb-platform-schema/SKILL.md
+│   ├── da-ba-approval/SKILL.md
+│   ├── schedule/SKILL.md
+│   └── ... (Anthropic default skills)
+└── template/SKILL.md
+```
+
+**When creating or editing skills:**
+1. Edit the `.md` file locally in `~/Skills/skills/[skill-name]/`
+2. Test in Cowork
+3. When happy: `cd ~/Skills && git add -A && git commit -m "Updated [skill]" && git push`
+
+### 8.3 OpenClaw/Yabby Structure
+
+```
+~/Code/ai/yabby/
+├── .git/                              # → github.com/thefuturebuilder/yabby
+├── SOUL.md                            # Identity, personality, values, tone
+├── HEARTBEAT.md                       # Scheduled tasks (cron-like, plain English)
+├── TOOLS.md                           # Tool usage instructions
+├── AGENTS.md                          # Agent definitions
+├── context/
+│   ├── user-profile.md                # Luke's context for Yabby
+│   └── outlines/                      # Business/topic outlines
+└── memory/                            # Accumulated memory across sessions
+```
+
+**Key OpenClaw files:**
+- `SOUL.md` — Injected first at every session start. Defines who Yabby is.
+- `HEARTBEAT.md` — Tasks that run on schedule (default every 30 minutes).
+- `TOOLS.md` — Instructions for how Yabby should use its available tools.
+- `context/` — Structured knowledge about the user and businesses.
+- `memory/` — Persistent memory accumulated across sessions.
+
+### 8.4 Relationship: Master Context vs. Yabby Context
+
+| Attribute | Master Context (Google Drive) | Yabby Context (GitHub) |
+|---|---|---|
+| Format | Google Docs | Markdown files |
+| Access | Mobile, web, any AI app | OpenClaw agent, terminal, VS Code |
+| Purpose | Cross-platform knowledge base | Agent-native context injection |
+| Sync | Google Drive (automatic) | GitHub (git push/pull) |
+| Updates | Manual or via Claude | Manual or via OpenClaw heartbeat |
+
+When one is updated, consider whether the other needs the same update.
+They serve the same knowledge but different access patterns.
 
 ---
 
-## 8. Code Projects (Local Mac Only)
-
-Code NEVER goes in Google Drive (corrupts `node_modules` and `.git`). We use `Projects-Code` to explicitly differentiate from Google Drive PATH Projects.
-
-```
-~/Projects-Code/
-├── [company]/[project]/     # Each project = its own Git repo
-├── personal/automation/     # Claude/agent scripts
-├── personal/learning/       # Terminal practice
-└── _shared/templates/ & scripts/
-```
-
-**Sync across machines**: GitHub (push/pull). Not Google Drive.
-
----
-
-## 9. Monthly / Quarterly Habits (Digital Audits & Compliance)
+## 9. Monthly / Quarterly Habits
 
 ### 9.1 The Digital Audit (Monthly)
-Conduct this audit once a month. Score 0-5 on each item. Track progress over 4 months. Print out your score and stick it on the wall in your office to stay visually prompted.
+Score 0-5 on each item. Track progress over 4 months.
 
 - **Sort**: Desktop clean? No duplicates? Downloads empty? Archives current?
 - **Set in Order**: Clear structure? Consistent naming? 3-click access?
 - **Shine**: Weekly reset done? Browser clean? Apps closed? Inbox cleared?
-- **Standardise**: Rules documented? Team trained? Templates centralised? Version control working?
+- **Standardise**: Rules documented? Team trained? Templates centralised?
+  Version control working? GitHub repos all have clean main branches?
 - **Sustain**: Regular schedule set? Ownership assigned? Habits automatic?
+- **Sync Lanes**: Zero unsynced files? All Git repos pushed? My Drives empty?
 
-For the detailed audit template, see [reference-audit.md](reference-audit.md).
+### 9.2 GitHub Repo Audit (Monthly)
+- Review the Repository Registry (Section 3.5) — any new repos to add?
+- Check for repos that should be archived.
+- Verify all local clones are on `main` branch and up to date.
+- Check `.gitignore` files — no secrets, no `node_modules`, no `.env` committed.
 
-### 9.2 Implement Backup Routine (Quarterly)
-Establish and consistently follow a regular physical backup system:
-- **Off-Platform Cloud:** Back up to another secure cloud-based platform (separate from primary storage, e.g., iCloud or Dropbox).
-- **Physical Drive:** Conduct regular backups to an SSD kept in the office, a safe, or secure location. This protects against online outages.
-- **Full System Backup:** Once a month, trigger a full copy of the Google Drive PATH structure to the designated SSD/Secondary Cloud.
+### 9.3 Backup Routine (Quarterly)
+- **Google Drive**: Full copy to SSD or secondary cloud platform.
+- **GitHub**: Verify at least 2 local clones exist (Mac + Mac Mini).
+- **Secrets/credentials**: Audit `.env` files — rotate any that are stale.
 
-### 9.3 Review & Update Compliance (Quarterly)
-Integrate document compliance and key dates:
-- **Reminder Systems:** Check calendar for documents requiring renewals/reviews (e.g., safety certifications, insurance policies, licenses).
-- **Review Process:** Periodically review key "Tools" documents like SOPs to ensure they are current.
+### 9.4 Review & Update Compliance (Quarterly)
+- Check calendar for documents requiring renewals (certifications, insurance, licenses).
+- Review key SOPs and Templates in Tools/ — ensure they are current.
+- Review this filing skill itself — does it still match reality?
